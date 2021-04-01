@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - just_contacts (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - just_contacts (from `.symlinks/plugins/just_contacts/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  just_contacts:
+    :path: ".symlinks/plugins/just_contacts/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  just_contacts: 140f5c0e142270914bb51dd39a266f9414d66da1
+
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+
+COCOAPODS: 1.10.0
