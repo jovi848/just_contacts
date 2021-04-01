@@ -1,8 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.just.just_contacts_example">
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
    <application
         android:label="just_contacts_example"
         android:icon="@mipmap/ic_launcher">
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

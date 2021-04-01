@@ -9,11 +9,21 @@ class JustContacts {
   static const MethodChannel _channel =
       const MethodChannel('just_contacts');
 
-  static Future<String> get platformVersion async {
+  static Future<String?> getContacts(Function(String) then) async {
     Stopwatch stopwatch = new Stopwatch()..start();
 
-    final String json = await _channel.invokeMethod('getPlatformVersion');
-   var jovi = AGroupOfContacts.fromJson(jsonDecode(json));
+    var uuid = 'some random id';
+
+    _channel.setMethodCallHandler((call) {
+      if(call.method == ('getPlatformVersion'+uuid)){
+        print(call.arguments);
+        then(call.arguments.toString());
+      }
+      return Future.value(true);
+    });
+
+    final String? json = await _channel.invokeMethod('getPlatformVersion',uuid);
+
     print('doSomething() executed in ${stopwatch.elapsed}');
 
     return json;
