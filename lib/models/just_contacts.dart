@@ -6,19 +6,26 @@ class AGroupOfContacts {
     required this.justContacts,
   });
 
-  List<JustContact> justContacts;
+  List<JustAContact> justContacts;
 
-  factory AGroupOfContacts.fromJson(Map<String, dynamic> json) => AGroupOfContacts(
-    justContacts: List<JustContact>.from(json["contacts"].map((x) => JustContact.fromJson(x))),
-  );
+  factory AGroupOfContacts.fromJson(Map<String, dynamic> json) {
+    var index = 0;
+    return AGroupOfContacts(
+        justContacts: List<JustAContact>.from(json["contacts"].map((x) {
+
+      print("x=$index");
+      JustAContact.fromJson(x);
+      index++;
+    })));
+  }
 
   Map<String, dynamic> toJson() => {
     "contacts": List<dynamic>.from(justContacts.map((x) => x.toJson())),
   };
 }
 
-class JustContact {
-  JustContact({
+class JustAContact {
+  JustAContact({
     required this.firstName,
     required this.lastName,
     required this.phoneNumbers,
@@ -32,10 +39,10 @@ class JustContact {
   String name;
   List<dynamic> emails;
 
-  factory JustContact.fromJson(Map<String, dynamic> json) => JustContact(
+  factory JustAContact.fromJson(Map<String, dynamic> json) => JustAContact(
     firstName: json["firstName"],
     lastName: json["lastName"],
-    phoneNumbers: List<String>.from(json["phoneNumbers"].map((x) => x)),
+    phoneNumbers: List<String>.from(json["numbers"].map((x) => x)),
     name: json["name"],
     emails: List<dynamic>.from(json["emails"].map((x) => x)),
   );
@@ -43,7 +50,7 @@ class JustContact {
   Map<String, dynamic> toJson() => {
     "firstName": firstName,
     "lastName": lastName,
-    "phoneNumbers": List<dynamic>.from(phoneNumbers.map((x) => x)),
+    "numbers": List<dynamic>.from(phoneNumbers.map((x) => x)),
     "name": name,
     "emails": List<dynamic>.from(emails.map((x) => x)),
   };

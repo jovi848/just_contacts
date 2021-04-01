@@ -4,33 +4,38 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:just_contacts/models/just_contacts.dart';
+import 'package:uuid/uuid.dart';
 
 class JustContacts {
   static const MethodChannel _channel =
       const MethodChannel('just_contacts');
 
+  static var _uuid = Uuid();
+  static Future<List<JustAContact>> getContacts() async {
+    var completer = Completer<List<JustAContact>>();
 
-  static void getContacts({required Function(String) then,required Function() onError}) async {
-    Stopwatch stopwatch = new Stopwatch()..start();
     try {
 
-      var uuid = 'some random id';
-      final String? json = await _channel.invokeMethod('getPlatformVersion',uuid);
+      var uuid = _uuid.v4();
+      final _ = await _channel.invokeMethod('getPlatformVersion',uuid);
 
       _channel.setMethodCallHandler((call) {
         if(call.method == ('getPlatformVersion'+uuid)){
           print(call.arguments);
-          then(call.arguments.toString());
+          var json = jsonDecode(call.arguments.toString());
+          var aGroupOfContacts = AGroupOfContacts.fromJson(json);
+          completer.complete(aGroupOfContacts.justContacts);
         }
         return Future.value(true);
       });
 
-      } on PlatformException {
-        onError();
-      }
+    } on PlatformException {
+      completer.completeError('unable to retrieve contacts');
 
+    }
 
-      print('doSomething() executed in ${stopwatch.elapsed}');
-
+    return completer.future;
   }
+
+
 }
