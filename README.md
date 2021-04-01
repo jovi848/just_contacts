@@ -1,6 +1,6 @@
 # just_contacts
 
-Flutter plugin to just retrieve contact in fast manner
+Flutter plugin to just retrieve contacts as a whole in fast manner
 
 ## Getting Started
 
