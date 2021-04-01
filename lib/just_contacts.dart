@@ -9,23 +9,28 @@ class JustContacts {
   static const MethodChannel _channel =
       const MethodChannel('just_contacts');
 
-  static Future<String?> getContacts(Function(String) then) async {
+
+  static void getContacts({required Function(String) then,required Function() onError}) async {
     Stopwatch stopwatch = new Stopwatch()..start();
+    try {
 
-    var uuid = 'some random id';
+      var uuid = 'some random id';
+      final String? json = await _channel.invokeMethod('getPlatformVersion',uuid);
 
-    _channel.setMethodCallHandler((call) {
-      if(call.method == ('getPlatformVersion'+uuid)){
-        print(call.arguments);
-        then(call.arguments.toString());
+      _channel.setMethodCallHandler((call) {
+        if(call.method == ('getPlatformVersion'+uuid)){
+          print(call.arguments);
+          then(call.arguments.toString());
+        }
+        return Future.value(true);
+      });
+
+      } on PlatformException {
+        onError();
       }
-      return Future.value(true);
-    });
 
-    final String? json = await _channel.invokeMethod('getPlatformVersion',uuid);
 
-    print('doSomething() executed in ${stopwatch.elapsed}');
+      print('doSomething() executed in ${stopwatch.elapsed}');
 
-    return json;
   }
 }
