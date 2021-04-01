@@ -17,10 +17,10 @@ class JustContacts {
     try {
 
       var uuid = _uuid.v4();
-      final _ = await _channel.invokeMethod('getPlatformVersion',uuid);
+      final _ = await _channel.invokeMethod('getAllContacts',uuid);
 
       _channel.setMethodCallHandler((call) {
-        if(call.method == ('getPlatformVersion'+uuid)){
+        if(call.method == ('getAllContacts'+uuid)){
           print(call.arguments);
           var json = jsonDecode(call.arguments.toString());
           var aGroupOfContacts = AGroupOfContacts.fromJson(json);

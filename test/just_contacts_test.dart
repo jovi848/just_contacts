@@ -17,6 +17,6 @@ void main() {
     channel.setMockMethodCallHandler(null);
   });
 
-  test('getPlatformVersion', () async {
+  test('getAllContacts', () async {
   });
 }

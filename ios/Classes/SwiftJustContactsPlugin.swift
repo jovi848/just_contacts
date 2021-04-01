@@ -5,16 +5,24 @@ import AddressBookUI
 import ContactsUI
 
 public class SwiftJustContactsPlugin: NSObject, FlutterPlugin {
-  public static func register(with registrar: FlutterPluginRegistrar) {
-    let channel = FlutterMethodChannel(name: "just_contacts", binaryMessenger: registrar.messenger())
+    
+    static var channel:FlutterMethodChannel? = nil;
+  
+    public static func register(with registrar: FlutterPluginRegistrar) {
+        channel = FlutterMethodChannel(name: "just_contacts", binaryMessenger: registrar.messenger())
     let instance = SwiftJustContactsPlugin()
-    registrar.addMethodCallDelegate(instance, channel: channel)
+        registrar.addMethodCallDelegate(instance, channel: channel!)
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
 
-    let contacts:JustAGroupOfContacts = ContactData.getAllContactsIOS9();
-    result("\(contacts.toJson() ?? "{contacts:[]}")")
+    DispatchQueue.main.async {
+        if let myChannel:FlutterMethodChannel = SwiftJustContactsPlugin.channel {
+            let contacts:JustAGroupOfContacts = ContactData.getAllContactsIOS9();
+            myChannel.invokeMethod("\(call.method)\(call.arguments ?? "")", arguments: contacts.toJson())
+        }
+    }
+    result("started")
 
     
   }
@@ -48,12 +56,12 @@ public class JustAContact: Codable{
     var name = "";
     var firstName:String = "";
     var lastName:String = "";
-    var phoneNumbers:[String] = [];
+    var numbers:[String] = [];
     var emails:[String] = [];
 
-    init(name:String,phoneNumbers:[String],emails:[String]) {
+    init(name:String,numbers:[String],emails:[String]) {
         self.name = name;
-        self.phoneNumbers = phoneNumbers;
+        self.numbers = numbers;
         self.emails = emails;
     }
     
@@ -73,9 +81,7 @@ public class JustAContact: Codable{
     
 }
 
-import AddressBook
-import AddressBookUI
-import ContactsUI
+
 
 public class ContactData {
     @available(iOS 9.0, *)
@@ -141,7 +147,7 @@ public class ContactData {
                 }
             }
             
-            let contact = JustAContact(name: tempName ?? "No Name", phoneNumbers:numbers,emails:emails)
+            let contact = JustAContact(name: tempName ?? "No Name", numbers:numbers,emails:emails)
             friends.append(contact)
 
         }

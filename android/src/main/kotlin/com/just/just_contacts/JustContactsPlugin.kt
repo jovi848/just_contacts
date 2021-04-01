@@ -33,7 +33,7 @@ class JustContactsPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-    if (call.method == "getPlatformVersion") {
+    if (call.method == "getAllContacts") {
       result.success("started")
 
       val backgroundThread = object: Thread("background") {
@@ -44,7 +44,7 @@ class JustContactsPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
           contacts.contacts = x;
           var json = Gson().toJson(contacts)
           Handler(Looper.getMainLooper()).post {
-            channel.invokeMethod("getPlatformVersion"+call.arguments,json)
+            channel.invokeMethod("getAllContacts"+call.arguments,json)
 
           };
         }

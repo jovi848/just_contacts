@@ -13,7 +13,6 @@ class AGroupOfContacts {
     return AGroupOfContacts(
         justContacts: List<JustAContact>.from(json["contacts"].map((x) {
 
-      print("x=$index");
       JustAContact.fromJson(x);
       index++;
     })));
