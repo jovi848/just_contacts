@@ -15,13 +15,10 @@ class JustContacts {
     var completer = Completer<List<JustAContact>>();
 
     try {
-
       var uuid = _uuid.v4();
       final _ = await _channel.invokeMethod('getAllContacts',uuid);
-
       _channel.setMethodCallHandler((call) {
         if(call.method == ('getAllContacts'+uuid)){
-          print(call.arguments);
           var json = jsonDecode(call.arguments.toString());
           var aGroupOfContacts = AGroupOfContacts.fromJson(json);
           completer.complete(aGroupOfContacts.justContacts);
@@ -29,7 +26,7 @@ class JustContacts {
         return Future.value(true);
       });
 
-    } on PlatformException {
+    } catch(e) {
       completer.completeError('unable to retrieve contacts');
 
     }
