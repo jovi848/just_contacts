@@ -9,12 +9,9 @@ class AGroupOfContacts {
   List<JustAContact> justContacts;
 
   factory AGroupOfContacts.fromJson(Map<String, dynamic> json) {
-    var index = 0;
     return AGroupOfContacts(
         justContacts: List<JustAContact>.from(json["contacts"].map((x) {
-
-      JustAContact.fromJson(x);
-      index++;
+      return JustAContact.fromJson(x);
     })));
   }
 
