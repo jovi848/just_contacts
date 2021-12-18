@@ -155,7 +155,22 @@ public class ContactData {
         }
       
         friends = friends.sorted{ $0.name < $1.name }
-       
+        
+        var newArray:[JustAContact] = []
+        var hashMap = [String : Bool]()
+        for friend in friends {
+            
+            let key = friend.numbers.joined(separator:"-")
+            
+            if(hashMap[key] == nil){
+                newArray.append(friend)
+            }
+            hashMap[key] = true;
+        }
+
+        if(newArray.count > 0){
+            friends = newArray
+        }
 
         let aGroupOfContacts = JustAGroupOfContacts(contacts: friends);
 

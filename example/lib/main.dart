@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:just_contacts/just_contacts.dart';
+import 'package:just_contacts/models/just_contacts.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
+  List<JustAContact> data = [];
 
   @override
   void initState() {
@@ -27,7 +28,7 @@ class _MyAppState extends State<MyApp> {
     try {
       var x = await JustContacts.getContacts();
       setState(() {
-        _platformVersion = x.length.toString();
+        data = x;
       });
     } catch (e){
       print(e);
@@ -48,8 +49,17 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+        body:  ListView.builder(
+            itemCount: data.length,
+            itemBuilder: (BuildContext context,int index){
+
+              return Row(children: [Text(data.length.toString()),
+                Text(data[index].firstName ?? '' + data[index].lastName ?? '',),
+                Text(data[index].phoneNumbers.join('-'))
+              ]);
+
+
+            }
         ),
       ),
     );
