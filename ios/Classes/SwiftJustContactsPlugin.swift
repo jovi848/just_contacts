@@ -130,9 +130,9 @@ public class ContactData {
             var numbers:[String] = []
             var emails:[String] = []
             for phoneNumber in contact.phoneNumbers {
-                if(phoneNumber.label != nil && phoneNumber.label == CNLabelPhoneNumberMobile){
-                    numbers.append( phoneNumber.value.stringValue)
-                }
+//                if(phoneNumber.label != nil && phoneNumber.label == CNLabelPhoneNumberMobile){
+                  numbers.append( phoneNumber.value.stringValue)
+//                }
             }
             
             for email in contact.emailAddresses {
